@@ -6,7 +6,7 @@ const obtenerEmpleados = async (req, res) => {
 };
 
 const empleadoPorId = async (req, res) => {
-    const [rows] = await pool.query("SELECT * FROM empleado WHERE id = ?", [
+    const [rows] = await pool.query("SELECT * FROM empleado WHERE idEmpleado = ?", [
         req.params.id,
     ]);
     if (rows.length <= 0) {
@@ -18,11 +18,11 @@ const empleadoPorId = async (req, res) => {
 };
 
 const crearEmpleado = async (req, res) => {
-    const { nombre, email, contrasena } = req.body;
-    console.log(nombre, email, contrasena);
+    const { nombre, contrasena, idRol } = req.body;
+    console.log(nombre, contrasena, idRol);
     const [rows] = await pool.query(
         "INSERT INTO empleado VALUES (null, ?, ?, ?)",
-        [nombre, email, contrasena]
+        [nombre, contrasena, idRol]
     );
     const affectedRows = rows.affectedRows;
     if (affectedRows > 0) {
@@ -36,7 +36,7 @@ const actualizarEmpleado = async (req, res) => {
     const { id } = req.params;
     const { nombre, email, contrasena } = req.body;
     const [rows] = await pool.query(
-        "UPDATE empleado SET nombre = IFNULL(?, nombre), email = IFNULL(?, email), contrasena = IFNULL(?, contrasena) WHERE id = ?",
+        "UPDATE empleado SET nombre = IFNULL(?, nombre), email = IFNULL(?, contrasena), contrasena = IFNULL(?, idRol) WHERE id = ?",
         [nombre, email, contrasena, id]
     );
     if (rows.affectedRows >= 0) {
@@ -47,7 +47,7 @@ const actualizarEmpleado = async (req, res) => {
 };
 
 const eliminarEmpleado = async (req, res) => {
-    const [rows] = await pool.query("DELETE FROM empleado WHERE id = ?", [
+    const [rows] = await pool.query("DELETE FROM empleado WHERE idEmpleado = ?", [
         req.params.id,
     ]);
     if (rows.affectedRows > 0) {
