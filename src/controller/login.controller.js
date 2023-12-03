@@ -1,11 +1,11 @@
 import { pool } from "../db/db.js";
 
 const login = async (req, res) => {
-    const { email, contrasena } = req.body;
+    const { nombre, contrasena } = req.body;
 
     const [rows] = await pool.query(
-        "SELECT * FROM enmpleado WHERE usuario = ? AND contrasena = ?",
-        [email, contrasena]
+        "SELECT * FROM empleado WHERE nombre = ? AND contrasena = ?",
+        [nombre, contrasena]
     );
     if (rows.length > 0) {
         res.json({
