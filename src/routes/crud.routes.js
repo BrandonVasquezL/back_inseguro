@@ -13,10 +13,10 @@ router.get("/empleado", obtenerEmpleados);
 
 router.get("/empleado/:id", empleadoPorId);
 
-router.post("/empleado", crearEmpleado);
+router.post("/empleadoC", crearEmpleado);
 
-router.put("/empleado/:id", actualizarEmpleado);
+router.put("/empleadoU/:id", actualizarEmpleado);
 
-router.delete("/empleado/:id", eliminarEmpleado);
+router.delete("/empleadoD/:id", eliminarEmpleado);
 
 export default router;

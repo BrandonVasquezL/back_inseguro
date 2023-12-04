@@ -1,12 +1,12 @@
 import { pool } from "../db/db.js";
 
 const obtenerEmpleados = async (req, res) => {
-    const [rows] = await pool.query("SELECT * FROM empleado");
+    const [rows] = await pool.query("SELECT e.idEmpleado, e.nombre, e.contrasena, r.rol AS rol FROM empleado e JOIN rol r ON e.idRol = r.idRol");
     res.json(rows);
 };
 
 const empleadoPorId = async (req, res) => {
-    const [rows] = await pool.query("SELECT * FROM empleado WHERE idEmpleado = ?", [
+    const [rows] = await pool.query("SELECT e.idEmpleado, e.nombre, e.contrasena, r.rol AS rol FROM empleado e JOIN rol r ON e.idRol = r.idRol WHERE idEmpleado = ?", [
         req.params.id,
     ]);
     if (rows.length <= 0) {
