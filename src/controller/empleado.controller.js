@@ -33,13 +33,12 @@ const crearEmpleado = async (req, res) => {
 };
 
 const actualizarEmpleado = async (req, res) => {
-    const { id } = req.params;
-    const { nombre, email, contrasena } = req.body;
+    const { nombre, contrasena, idRol, idEmpleado } = req.body;
     const [rows] = await pool.query(
-        "UPDATE empleado SET nombre = IFNULL(?, nombre), email = IFNULL(?, contrasena), contrasena = IFNULL(?, idRol) WHERE id = ?",
-        [nombre, email, contrasena, id]
+        "UPDATE empleado SET nombre = COALESCE(?, nombre), contrasena = COALESCE(?, contrasena), idRol = COALESCE(?, idRol) WHERE idEmpleado = ?",
+        [nombre, contrasena, idRol, idEmpleado]
     );
-    if (rows.affectedRows >= 0) {
+    if (rows.affectedRows > 0) {
         res.send({ message: "Empleado actualizado correctamente" });
     } else {
         res.send({ message: "Error al actualizar al empleado" });
