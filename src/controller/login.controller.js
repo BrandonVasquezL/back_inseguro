@@ -10,14 +10,22 @@ const login = async (req, res) => {
     );
 
     if (rows.length > 0) {
-        const token = jwt.sign({ id: rows[0].idEmpleado, nombre: rows[0].nombre }, 'tu_secreto');
-        res.json({
-            message: "Bienvenido",
-            token: token
-        });
+        const empleado = rows[0];
+
+        if (empleado.idRol === 1 || empleado.idRol === 2) {
+            const token = jwt.sign({ id: empleado.idEmpleado, nombre: empleado.nombre }, 'tu_secreto');
+            res.json({
+                message: "Bienvenido",
+                token: token
+            });
+        } else {
+            res.json({
+                message: "Acceso no autorizado. El usuario no tiene el rol necesario."
+            });
+        }
     } else {
         res.json({
-            message: "nombre de usuario o contraseña incorrectos",
+            message: "Nombre de usuario o contraseña incorrectos",
         });
     }
 };
